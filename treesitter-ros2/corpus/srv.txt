@@ -1,0 +1,119 @@
+========
+ROS srv
+========
+
+# request constants
+int8 FOO=1
+int8 BAR=2
+
+# request fields
+int8 foobar
+another_pkg/AnotherMessage msg
+---
+# response constants
+uint32 SECRET=123456
+
+# response fields
+another_pkg/YetAnotherMessage val
+CustomMessageDefinedInThisPackage value
+uint32 an_integer
+
+---
+(source_file
+  (comment
+    (comment_char)
+    (comment_string)
+  )
+  (field
+    (field_type
+      (built_in_type)
+    )
+    (field_name
+      (const_field
+        (const_name)
+        (field_value
+          (integer_value)
+        )
+      )
+    )
+  )
+  (field
+    (field_type
+      (built_in_type)
+    )
+    (field_name
+      (const_field
+        (const_name)
+        (field_value
+          (integer_value)
+        )
+      )
+    )
+  )
+  (comment
+    (comment_char)
+    (comment_string)
+  )
+  (field
+    (field_type
+      (built_in_type)
+    )
+    (field_name
+      (name_string)
+    )
+  )
+  (field
+    (field_type
+      (custom_interface_type)
+    )
+    (field_name
+      (name_string)
+    )
+  )
+  (separator)
+  (comment
+    (comment_char)
+    (comment_string)
+  )
+  (field
+    (field_type
+      (built_in_type)
+    )
+    (field_name
+      (const_field
+        (const_name)
+        (field_value
+          (integer_value)
+        )
+      )
+    )
+  )
+  (comment
+    (comment_char)
+    (comment_string)
+  )
+  (field
+    (field_type
+      (custom_interface_type)
+    )
+    (field_name
+      (name_string)
+    )
+  )
+  (field
+    (field_type
+      (custom_interface_type)
+    )
+    (field_name
+      (name_string)
+    )
+  )
+  (field
+    (field_type
+      (built_in_type)
+    )
+    (field_name
+      (name_string)
+    )
+  )
+)

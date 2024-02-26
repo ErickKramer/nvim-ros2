@@ -1,0 +1,58 @@
+========
+ROS action
+========
+
+# Fancy comment about the action goal
+int32 order
+---
+# Fancy comment about the action response
+int32[] sequence
+---
+# Fancy comment about the action feedback
+int32[] sequence
+
+---
+(source_file
+  (comment
+    (comment_char)
+    (comment_string)
+  )
+  (field
+    (field_type
+      (built_in_type)
+    )
+    (field_name
+      (name_string)
+    )
+  )
+  (separator)
+  (comment
+    (comment_char)
+    (comment_string)
+  )
+  (field
+    (field_type
+      (array_type
+        (built_in_type)
+      )
+    )
+    (field_name
+      (name_string)
+    )
+  )
+  (separator)
+  (comment
+    (comment_char)
+    (comment_string)
+  )
+  (field
+    (field_type
+      (array_type
+        (built_in_type)
+      )
+    )
+    (field_name
+      (name_string)
+    )
+  )
+)

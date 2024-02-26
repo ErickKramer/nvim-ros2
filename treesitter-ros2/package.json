@@ -1,0 +1,14 @@
+{
+  "name": "tree-sitter-ros2",
+  "version": "1.0.0",
+  "description": "ros2 grammar for the tree-sitter parsing library",
+  "main": "bindings/node",
+  "scripts": {
+    "test": "tree-sitter test"
+  },
+  "author": "Erick Kramer",
+  "license": "MIT",
+  "dependencies": {
+    "nan": "^2.18.0"
+  }
+}
