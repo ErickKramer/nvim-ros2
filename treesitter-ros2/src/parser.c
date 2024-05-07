@@ -426,9 +426,9 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
   eof = lexer->eof(lexer);
   switch (state) {
     case 0:
-      if (eof) ADVANCE(14);
+      if (eof) ADVANCE(15);
       if (lookahead == '"') ADVANCE(1);
-      if (lookahead == '#') ADVANCE(15);
+      if (lookahead == '#') ADVANCE(16);
       if (lookahead == '\'') ADVANCE(2);
       if (lookahead == ',') ADVANCE(90);
       if (lookahead == '-') ADVANCE(3);
@@ -436,19 +436,19 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
       if (lookahead == '=') ADVANCE(84);
       if (lookahead == '[') ADVANCE(77);
       if (lookahead == ']') ADVANCE(78);
-      if (lookahead == 'b') ADVANCE(61);
-      if (lookahead == 'c') ADVANCE(50);
-      if (lookahead == 'f') ADVANCE(55);
-      if (lookahead == 'i') ADVANCE(58);
-      if (lookahead == 's') ADVANCE(68);
-      if (lookahead == 'u') ADVANCE(53);
-      if (lookahead == 'w') ADVANCE(67);
+      if (lookahead == 'b') ADVANCE(62);
+      if (lookahead == 'c') ADVANCE(51);
+      if (lookahead == 'f') ADVANCE(56);
+      if (lookahead == 'i') ADVANCE(59);
+      if (lookahead == 's') ADVANCE(69);
+      if (lookahead == 'u') ADVANCE(54);
+      if (lookahead == 'w') ADVANCE(68);
       if (('\t' <= lookahead && lookahead <= '\r') ||
           lookahead == ' ') SKIP(0)
       if (('0' <= lookahead && lookahead <= '9')) ADVANCE(81);
-      if (('a' <= lookahead && lookahead <= 'z')) ADVANCE(74);
       if (('A' <= lookahead && lookahead <= 'Z') ||
-          lookahead == '_') ADVANCE(73);
+          lookahead == '_' ||
+          ('a' <= lookahead && lookahead <= 'z')) ADVANCE(74);
       END_STATE();
     case 1:
       if (lookahead == '"') ADVANCE(89);
@@ -463,17 +463,16 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
       if (('0' <= lookahead && lookahead <= '9')) ADVANCE(86);
       END_STATE();
     case 4:
-      if (lookahead == '-') ADVANCE(18);
+      if (lookahead == '-') ADVANCE(19);
       END_STATE();
     case 5:
       if (lookahead == '<') ADVANCE(7);
       if (lookahead == '[') ADVANCE(77);
-      if (lookahead == ']') ADVANCE(78);
       if (('\t' <= lookahead && lookahead <= '\r') ||
           lookahead == ' ') SKIP(5)
-      if (('0' <= lookahead && lookahead <= '9')) ADVANCE(82);
       if (('a' <= lookahead && lookahead <= 'z')) ADVANCE(83);
-      if (('A' <= lookahead && lookahead <= 'Z') ||
+      if (('0' <= lookahead && lookahead <= '9') ||
+          ('A' <= lookahead && lookahead <= 'Z') ||
           lookahead == '_') ADVANCE(85);
       END_STATE();
     case 6:
@@ -491,194 +490,189 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
       if (('\t' <= lookahead && lookahead <= '\r') ||
           lookahead == ' ') SKIP(9)
       if (('a' <= lookahead && lookahead <= 'z')) ADVANCE(83);
-      if (('A' <= lookahead && lookahead <= 'Z') ||
+      if (('0' <= lookahead && lookahead <= '9') ||
+          ('A' <= lookahead && lookahead <= 'Z') ||
           lookahead == '_') ADVANCE(85);
       END_STATE();
     case 10:
-      if (('0' <= lookahead && lookahead <= '9')) ADVANCE(87);
+      if (lookahead == ']') ADVANCE(78);
+      if (('\t' <= lookahead && lookahead <= '\r') ||
+          lookahead == ' ') SKIP(10)
+      if (('0' <= lookahead && lookahead <= '9')) ADVANCE(82);
       END_STATE();
     case 11:
+      if (('0' <= lookahead && lookahead <= '9')) ADVANCE(87);
+      END_STATE();
+    case 12:
       if (('0' <= lookahead && lookahead <= '9') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(83);
       END_STATE();
-    case 12:
-      if (('A' <= lookahead && lookahead <= 'Z') ||
-          lookahead == '_' ||
-          ('a' <= lookahead && lookahead <= 'z')) ADVANCE(74);
-      END_STATE();
     case 13:
-      if (eof) ADVANCE(14);
-      if (lookahead == '"') ADVANCE(1);
-      if (lookahead == '#') ADVANCE(15);
-      if (lookahead == '\'') ADVANCE(2);
-      if (lookahead == ',') ADVANCE(90);
-      if (lookahead == '-') ADVANCE(3);
-      if (lookahead == '[') ADVANCE(76);
-      if (lookahead == ']') ADVANCE(78);
-      if (lookahead == 'b') ADVANCE(61);
-      if (lookahead == 'c') ADVANCE(50);
-      if (lookahead == 'f') ADVANCE(55);
-      if (lookahead == 'i') ADVANCE(58);
-      if (lookahead == 's') ADVANCE(68);
-      if (lookahead == 'u') ADVANCE(53);
-      if (lookahead == 'w') ADVANCE(67);
-      if (('\t' <= lookahead && lookahead <= '\r') ||
-          lookahead == ' ') SKIP(13)
-      if (('0' <= lookahead && lookahead <= '9')) ADVANCE(86);
       if (('A' <= lookahead && lookahead <= 'Z') ||
           lookahead == '_' ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(74);
       END_STATE();
     case 14:
-      ACCEPT_TOKEN(ts_builtin_sym_end);
-      END_STATE();
-    case 15:
-      ACCEPT_TOKEN(sym_comment_char);
-      END_STATE();
-    case 16:
-      ACCEPT_TOKEN(sym_comment_string);
-      if (lookahead == '\t' ||
-          (11 <= lookahead && lookahead <= '\r') ||
-          lookahead == ' ') ADVANCE(16);
-      if (lookahead != 0 &&
-          lookahead != '\n') ADVANCE(17);
-      END_STATE();
-    case 17:
-      ACCEPT_TOKEN(sym_comment_string);
-      if (lookahead != 0 &&
-          lookahead != '\n') ADVANCE(17);
-      END_STATE();
-    case 18:
-      ACCEPT_TOKEN(sym_separator);
-      END_STATE();
-    case 19:
-      ACCEPT_TOKEN(anon_sym_bool);
-      if (lookahead == '/') ADVANCE(12);
-      if (lookahead == 'e') ADVANCE(46);
-      if (('0' <= lookahead && lookahead <= '9') ||
-          ('A' <= lookahead && lookahead <= 'Z') ||
+      if (eof) ADVANCE(15);
+      if (lookahead == '"') ADVANCE(1);
+      if (lookahead == '#') ADVANCE(16);
+      if (lookahead == '\'') ADVANCE(2);
+      if (lookahead == ',') ADVANCE(90);
+      if (lookahead == '-') ADVANCE(3);
+      if (lookahead == '[') ADVANCE(76);
+      if (lookahead == ']') ADVANCE(78);
+      if (lookahead == 'b') ADVANCE(62);
+      if (lookahead == 'c') ADVANCE(51);
+      if (lookahead == 'f') ADVANCE(56);
+      if (lookahead == 'i') ADVANCE(59);
+      if (lookahead == 's') ADVANCE(69);
+      if (lookahead == 'u') ADVANCE(54);
+      if (lookahead == 'w') ADVANCE(68);
+      if (('\t' <= lookahead && lookahead <= '\r') ||
+          lookahead == ' ') SKIP(14)
+      if (('0' <= lookahead && lookahead <= '9')) ADVANCE(86);
+      if (('A' <= lookahead && lookahead <= 'Z') ||
           lookahead == '_' ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(74);
       END_STATE();
+    case 15:
+      ACCEPT_TOKEN(ts_builtin_sym_end);
+      END_STATE();
+    case 16:
+      ACCEPT_TOKEN(sym_comment_char);
+      END_STATE();
+    case 17:
+      ACCEPT_TOKEN(sym_comment_string);
+      if (lookahead == '\t' ||
+          (11 <= lookahead && lookahead <= '\r') ||
+          lookahead == ' ') ADVANCE(17);
+      if (lookahead != 0 &&
+          lookahead != '\n') ADVANCE(18);
+      END_STATE();
+    case 18:
+      ACCEPT_TOKEN(sym_comment_string);
+      if (lookahead != 0 &&
+          lookahead != '\n') ADVANCE(18);
+      END_STATE();
+    case 19:
+      ACCEPT_TOKEN(sym_separator);
+      END_STATE();
     case 20:
-      ACCEPT_TOKEN(anon_sym_boolean);
-      if (lookahead == '/') ADVANCE(12);
+      ACCEPT_TOKEN(anon_sym_bool);
+      if (lookahead == '/') ADVANCE(13);
+      if (lookahead == 'e') ADVANCE(47);
       if (('0' <= lookahead && lookahead <= '9') ||
           ('A' <= lookahead && lookahead <= 'Z') ||
           lookahead == '_' ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(74);
       END_STATE();
     case 21:
-      ACCEPT_TOKEN(anon_sym_char);
-      if (lookahead == '/') ADVANCE(12);
+      ACCEPT_TOKEN(anon_sym_boolean);
+      if (lookahead == '/') ADVANCE(13);
       if (('0' <= lookahead && lookahead <= '9') ||
           ('A' <= lookahead && lookahead <= 'Z') ||
           lookahead == '_' ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(74);
       END_STATE();
     case 22:
-      ACCEPT_TOKEN(anon_sym_float32);
-      if (lookahead == '/') ADVANCE(12);
+      ACCEPT_TOKEN(anon_sym_char);
+      if (lookahead == '/') ADVANCE(13);
       if (('0' <= lookahead && lookahead <= '9') ||
           ('A' <= lookahead && lookahead <= 'Z') ||
           lookahead == '_' ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(74);
       END_STATE();
     case 23:
-      ACCEPT_TOKEN(anon_sym_float64);
-      if (lookahead == '/') ADVANCE(12);
+      ACCEPT_TOKEN(anon_sym_float32);
+      if (lookahead == '/') ADVANCE(13);
       if (('0' <= lookahead && lookahead <= '9') ||
           ('A' <= lookahead && lookahead <= 'Z') ||
           lookahead == '_' ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(74);
       END_STATE();
     case 24:
-      ACCEPT_TOKEN(anon_sym_int8);
-      if (lookahead == '/') ADVANCE(12);
+      ACCEPT_TOKEN(anon_sym_float64);
+      if (lookahead == '/') ADVANCE(13);
       if (('0' <= lookahead && lookahead <= '9') ||
           ('A' <= lookahead && lookahead <= 'Z') ||
           lookahead == '_' ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(74);
       END_STATE();
     case 25:
-      ACCEPT_TOKEN(anon_sym_uint8);
-      if (lookahead == '/') ADVANCE(12);
+      ACCEPT_TOKEN(anon_sym_int8);
+      if (lookahead == '/') ADVANCE(13);
       if (('0' <= lookahead && lookahead <= '9') ||
           ('A' <= lookahead && lookahead <= 'Z') ||
           lookahead == '_' ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(74);
       END_STATE();
     case 26:
-      ACCEPT_TOKEN(anon_sym_int16);
-      if (lookahead == '/') ADVANCE(12);
+      ACCEPT_TOKEN(anon_sym_uint8);
+      if (lookahead == '/') ADVANCE(13);
       if (('0' <= lookahead && lookahead <= '9') ||
           ('A' <= lookahead && lookahead <= 'Z') ||
           lookahead == '_' ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(74);
       END_STATE();
     case 27:
-      ACCEPT_TOKEN(anon_sym_uint16);
-      if (lookahead == '/') ADVANCE(12);
+      ACCEPT_TOKEN(anon_sym_int16);
+      if (lookahead == '/') ADVANCE(13);
       if (('0' <= lookahead && lookahead <= '9') ||
           ('A' <= lookahead && lookahead <= 'Z') ||
           lookahead == '_' ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(74);
       END_STATE();
     case 28:
-      ACCEPT_TOKEN(anon_sym_int32);
-      if (lookahead == '/') ADVANCE(12);
+      ACCEPT_TOKEN(anon_sym_uint16);
+      if (lookahead == '/') ADVANCE(13);
       if (('0' <= lookahead && lookahead <= '9') ||
           ('A' <= lookahead && lookahead <= 'Z') ||
           lookahead == '_' ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(74);
       END_STATE();
     case 29:
-      ACCEPT_TOKEN(anon_sym_uint32);
-      if (lookahead == '/') ADVANCE(12);
+      ACCEPT_TOKEN(anon_sym_int32);
+      if (lookahead == '/') ADVANCE(13);
       if (('0' <= lookahead && lookahead <= '9') ||
           ('A' <= lookahead && lookahead <= 'Z') ||
           lookahead == '_' ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(74);
       END_STATE();
     case 30:
-      ACCEPT_TOKEN(anon_sym_int64);
-      if (lookahead == '/') ADVANCE(12);
+      ACCEPT_TOKEN(anon_sym_uint32);
+      if (lookahead == '/') ADVANCE(13);
       if (('0' <= lookahead && lookahead <= '9') ||
           ('A' <= lookahead && lookahead <= 'Z') ||
           lookahead == '_' ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(74);
       END_STATE();
     case 31:
-      ACCEPT_TOKEN(anon_sym_uint64);
-      if (lookahead == '/') ADVANCE(12);
+      ACCEPT_TOKEN(anon_sym_int64);
+      if (lookahead == '/') ADVANCE(13);
       if (('0' <= lookahead && lookahead <= '9') ||
           ('A' <= lookahead && lookahead <= 'Z') ||
           lookahead == '_' ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(74);
       END_STATE();
     case 32:
-      ACCEPT_TOKEN(anon_sym_string);
-      if (lookahead == '/') ADVANCE(12);
+      ACCEPT_TOKEN(anon_sym_uint64);
+      if (lookahead == '/') ADVANCE(13);
       if (('0' <= lookahead && lookahead <= '9') ||
           ('A' <= lookahead && lookahead <= 'Z') ||
           lookahead == '_' ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(74);
       END_STATE();
     case 33:
-      ACCEPT_TOKEN(anon_sym_wstring);
-      if (lookahead == '/') ADVANCE(12);
+      ACCEPT_TOKEN(anon_sym_string);
+      if (lookahead == '/') ADVANCE(13);
       if (('0' <= lookahead && lookahead <= '9') ||
           ('A' <= lookahead && lookahead <= 'Z') ||
           lookahead == '_' ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(74);
       END_STATE();
     case 34:
-      ACCEPT_TOKEN(sym_custom_interface_type);
-      if (lookahead == '/') ADVANCE(12);
-      if (lookahead == '1') ADVANCE(43);
-      if (lookahead == '3') ADVANCE(36);
-      if (lookahead == '6') ADVANCE(40);
-      if (lookahead == '8') ADVANCE(24);
+      ACCEPT_TOKEN(anon_sym_wstring);
+      if (lookahead == '/') ADVANCE(13);
       if (('0' <= lookahead && lookahead <= '9') ||
           ('A' <= lookahead && lookahead <= 'Z') ||
           lookahead == '_' ||
@@ -686,7 +680,7 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
       END_STATE();
     case 35:
       ACCEPT_TOKEN(sym_custom_interface_type);
-      if (lookahead == '/') ADVANCE(12);
+      if (lookahead == '/') ADVANCE(13);
       if (lookahead == '1') ADVANCE(44);
       if (lookahead == '3') ADVANCE(37);
       if (lookahead == '6') ADVANCE(41);
@@ -698,8 +692,11 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
       END_STATE();
     case 36:
       ACCEPT_TOKEN(sym_custom_interface_type);
-      if (lookahead == '/') ADVANCE(12);
-      if (lookahead == '2') ADVANCE(28);
+      if (lookahead == '/') ADVANCE(13);
+      if (lookahead == '1') ADVANCE(45);
+      if (lookahead == '3') ADVANCE(38);
+      if (lookahead == '6') ADVANCE(42);
+      if (lookahead == '8') ADVANCE(26);
       if (('0' <= lookahead && lookahead <= '9') ||
           ('A' <= lookahead && lookahead <= 'Z') ||
           lookahead == '_' ||
@@ -707,7 +704,7 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
       END_STATE();
     case 37:
       ACCEPT_TOKEN(sym_custom_interface_type);
-      if (lookahead == '/') ADVANCE(12);
+      if (lookahead == '/') ADVANCE(13);
       if (lookahead == '2') ADVANCE(29);
       if (('0' <= lookahead && lookahead <= '9') ||
           ('A' <= lookahead && lookahead <= 'Z') ||
@@ -716,8 +713,8 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
       END_STATE();
     case 38:
       ACCEPT_TOKEN(sym_custom_interface_type);
-      if (lookahead == '/') ADVANCE(12);
-      if (lookahead == '2') ADVANCE(22);
+      if (lookahead == '/') ADVANCE(13);
+      if (lookahead == '2') ADVANCE(30);
       if (('0' <= lookahead && lookahead <= '9') ||
           ('A' <= lookahead && lookahead <= 'Z') ||
           lookahead == '_' ||
@@ -725,9 +722,8 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
       END_STATE();
     case 39:
       ACCEPT_TOKEN(sym_custom_interface_type);
-      if (lookahead == '/') ADVANCE(12);
-      if (lookahead == '3') ADVANCE(38);
-      if (lookahead == '6') ADVANCE(42);
+      if (lookahead == '/') ADVANCE(13);
+      if (lookahead == '2') ADVANCE(23);
       if (('0' <= lookahead && lookahead <= '9') ||
           ('A' <= lookahead && lookahead <= 'Z') ||
           lookahead == '_' ||
@@ -735,8 +731,9 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
       END_STATE();
     case 40:
       ACCEPT_TOKEN(sym_custom_interface_type);
-      if (lookahead == '/') ADVANCE(12);
-      if (lookahead == '4') ADVANCE(30);
+      if (lookahead == '/') ADVANCE(13);
+      if (lookahead == '3') ADVANCE(39);
+      if (lookahead == '6') ADVANCE(43);
       if (('0' <= lookahead && lookahead <= '9') ||
           ('A' <= lookahead && lookahead <= 'Z') ||
           lookahead == '_' ||
@@ -744,7 +741,7 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
       END_STATE();
     case 41:
       ACCEPT_TOKEN(sym_custom_interface_type);
-      if (lookahead == '/') ADVANCE(12);
+      if (lookahead == '/') ADVANCE(13);
       if (lookahead == '4') ADVANCE(31);
       if (('0' <= lookahead && lookahead <= '9') ||
           ('A' <= lookahead && lookahead <= 'Z') ||
@@ -753,8 +750,8 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
       END_STATE();
     case 42:
       ACCEPT_TOKEN(sym_custom_interface_type);
-      if (lookahead == '/') ADVANCE(12);
-      if (lookahead == '4') ADVANCE(23);
+      if (lookahead == '/') ADVANCE(13);
+      if (lookahead == '4') ADVANCE(32);
       if (('0' <= lookahead && lookahead <= '9') ||
           ('A' <= lookahead && lookahead <= 'Z') ||
           lookahead == '_' ||
@@ -762,8 +759,8 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
       END_STATE();
     case 43:
       ACCEPT_TOKEN(sym_custom_interface_type);
-      if (lookahead == '/') ADVANCE(12);
-      if (lookahead == '6') ADVANCE(26);
+      if (lookahead == '/') ADVANCE(13);
+      if (lookahead == '4') ADVANCE(24);
       if (('0' <= lookahead && lookahead <= '9') ||
           ('A' <= lookahead && lookahead <= 'Z') ||
           lookahead == '_' ||
@@ -771,7 +768,7 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
       END_STATE();
     case 44:
       ACCEPT_TOKEN(sym_custom_interface_type);
-      if (lookahead == '/') ADVANCE(12);
+      if (lookahead == '/') ADVANCE(13);
       if (lookahead == '6') ADVANCE(27);
       if (('0' <= lookahead && lookahead <= '9') ||
           ('A' <= lookahead && lookahead <= 'Z') ||
@@ -780,17 +777,17 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
       END_STATE();
     case 45:
       ACCEPT_TOKEN(sym_custom_interface_type);
-      if (lookahead == '/') ADVANCE(12);
-      if (lookahead == 'a') ADVANCE(64);
+      if (lookahead == '/') ADVANCE(13);
+      if (lookahead == '6') ADVANCE(28);
       if (('0' <= lookahead && lookahead <= '9') ||
           ('A' <= lookahead && lookahead <= 'Z') ||
           lookahead == '_' ||
-          ('b' <= lookahead && lookahead <= 'z')) ADVANCE(74);
+          ('a' <= lookahead && lookahead <= 'z')) ADVANCE(74);
       END_STATE();
     case 46:
       ACCEPT_TOKEN(sym_custom_interface_type);
-      if (lookahead == '/') ADVANCE(12);
-      if (lookahead == 'a') ADVANCE(57);
+      if (lookahead == '/') ADVANCE(13);
+      if (lookahead == 'a') ADVANCE(65);
       if (('0' <= lookahead && lookahead <= '9') ||
           ('A' <= lookahead && lookahead <= 'Z') ||
           lookahead == '_' ||
@@ -798,8 +795,8 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
       END_STATE();
     case 47:
       ACCEPT_TOKEN(sym_custom_interface_type);
-      if (lookahead == '/') ADVANCE(12);
-      if (lookahead == 'a') ADVANCE(70);
+      if (lookahead == '/') ADVANCE(13);
+      if (lookahead == 'a') ADVANCE(58);
       if (('0' <= lookahead && lookahead <= '9') ||
           ('A' <= lookahead && lookahead <= 'Z') ||
           lookahead == '_' ||
@@ -807,16 +804,16 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
       END_STATE();
     case 48:
       ACCEPT_TOKEN(sym_custom_interface_type);
-      if (lookahead == '/') ADVANCE(12);
-      if (lookahead == 'g') ADVANCE(32);
+      if (lookahead == '/') ADVANCE(13);
+      if (lookahead == 'a') ADVANCE(71);
       if (('0' <= lookahead && lookahead <= '9') ||
           ('A' <= lookahead && lookahead <= 'Z') ||
           lookahead == '_' ||
-          ('a' <= lookahead && lookahead <= 'z')) ADVANCE(74);
+          ('b' <= lookahead && lookahead <= 'z')) ADVANCE(74);
       END_STATE();
     case 49:
       ACCEPT_TOKEN(sym_custom_interface_type);
-      if (lookahead == '/') ADVANCE(12);
+      if (lookahead == '/') ADVANCE(13);
       if (lookahead == 'g') ADVANCE(33);
       if (('0' <= lookahead && lookahead <= '9') ||
           ('A' <= lookahead && lookahead <= 'Z') ||
@@ -825,8 +822,8 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
       END_STATE();
     case 50:
       ACCEPT_TOKEN(sym_custom_interface_type);
-      if (lookahead == '/') ADVANCE(12);
-      if (lookahead == 'h') ADVANCE(45);
+      if (lookahead == '/') ADVANCE(13);
+      if (lookahead == 'g') ADVANCE(34);
       if (('0' <= lookahead && lookahead <= '9') ||
           ('A' <= lookahead && lookahead <= 'Z') ||
           lookahead == '_' ||
@@ -834,8 +831,8 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
       END_STATE();
     case 51:
       ACCEPT_TOKEN(sym_custom_interface_type);
-      if (lookahead == '/') ADVANCE(12);
-      if (lookahead == 'i') ADVANCE(56);
+      if (lookahead == '/') ADVANCE(13);
+      if (lookahead == 'h') ADVANCE(46);
       if (('0' <= lookahead && lookahead <= '9') ||
           ('A' <= lookahead && lookahead <= 'Z') ||
           lookahead == '_' ||
@@ -843,8 +840,8 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
       END_STATE();
     case 52:
       ACCEPT_TOKEN(sym_custom_interface_type);
-      if (lookahead == '/') ADVANCE(12);
-      if (lookahead == 'i') ADVANCE(59);
+      if (lookahead == '/') ADVANCE(13);
+      if (lookahead == 'i') ADVANCE(57);
       if (('0' <= lookahead && lookahead <= '9') ||
           ('A' <= lookahead && lookahead <= 'Z') ||
           lookahead == '_' ||
@@ -852,7 +849,7 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
       END_STATE();
     case 53:
       ACCEPT_TOKEN(sym_custom_interface_type);
-      if (lookahead == '/') ADVANCE(12);
+      if (lookahead == '/') ADVANCE(13);
       if (lookahead == 'i') ADVANCE(60);
       if (('0' <= lookahead && lookahead <= '9') ||
           ('A' <= lookahead && lookahead <= 'Z') ||
@@ -861,8 +858,8 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
       END_STATE();
     case 54:
       ACCEPT_TOKEN(sym_custom_interface_type);
-      if (lookahead == '/') ADVANCE(12);
-      if (lookahead == 'l') ADVANCE(19);
+      if (lookahead == '/') ADVANCE(13);
+      if (lookahead == 'i') ADVANCE(61);
       if (('0' <= lookahead && lookahead <= '9') ||
           ('A' <= lookahead && lookahead <= 'Z') ||
           lookahead == '_' ||
@@ -870,8 +867,8 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
       END_STATE();
     case 55:
       ACCEPT_TOKEN(sym_custom_interface_type);
-      if (lookahead == '/') ADVANCE(12);
-      if (lookahead == 'l') ADVANCE(63);
+      if (lookahead == '/') ADVANCE(13);
+      if (lookahead == 'l') ADVANCE(20);
       if (('0' <= lookahead && lookahead <= '9') ||
           ('A' <= lookahead && lookahead <= 'Z') ||
           lookahead == '_' ||
@@ -879,8 +876,8 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
       END_STATE();
     case 56:
       ACCEPT_TOKEN(sym_custom_interface_type);
-      if (lookahead == '/') ADVANCE(12);
-      if (lookahead == 'n') ADVANCE(48);
+      if (lookahead == '/') ADVANCE(13);
+      if (lookahead == 'l') ADVANCE(64);
       if (('0' <= lookahead && lookahead <= '9') ||
           ('A' <= lookahead && lookahead <= 'Z') ||
           lookahead == '_' ||
@@ -888,8 +885,8 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
       END_STATE();
     case 57:
       ACCEPT_TOKEN(sym_custom_interface_type);
-      if (lookahead == '/') ADVANCE(12);
-      if (lookahead == 'n') ADVANCE(20);
+      if (lookahead == '/') ADVANCE(13);
+      if (lookahead == 'n') ADVANCE(49);
       if (('0' <= lookahead && lookahead <= '9') ||
           ('A' <= lookahead && lookahead <= 'Z') ||
           lookahead == '_' ||
@@ -897,8 +894,8 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
       END_STATE();
     case 58:
       ACCEPT_TOKEN(sym_custom_interface_type);
-      if (lookahead == '/') ADVANCE(12);
-      if (lookahead == 'n') ADVANCE(69);
+      if (lookahead == '/') ADVANCE(13);
+      if (lookahead == 'n') ADVANCE(21);
       if (('0' <= lookahead && lookahead <= '9') ||
           ('A' <= lookahead && lookahead <= 'Z') ||
           lookahead == '_' ||
@@ -906,8 +903,8 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
       END_STATE();
     case 59:
       ACCEPT_TOKEN(sym_custom_interface_type);
-      if (lookahead == '/') ADVANCE(12);
-      if (lookahead == 'n') ADVANCE(49);
+      if (lookahead == '/') ADVANCE(13);
+      if (lookahead == 'n') ADVANCE(70);
       if (('0' <= lookahead && lookahead <= '9') ||
           ('A' <= lookahead && lookahead <= 'Z') ||
           lookahead == '_' ||
@@ -915,8 +912,8 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
       END_STATE();
     case 60:
       ACCEPT_TOKEN(sym_custom_interface_type);
-      if (lookahead == '/') ADVANCE(12);
-      if (lookahead == 'n') ADVANCE(71);
+      if (lookahead == '/') ADVANCE(13);
+      if (lookahead == 'n') ADVANCE(50);
       if (('0' <= lookahead && lookahead <= '9') ||
           ('A' <= lookahead && lookahead <= 'Z') ||
           lookahead == '_' ||
@@ -924,8 +921,8 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
       END_STATE();
     case 61:
       ACCEPT_TOKEN(sym_custom_interface_type);
-      if (lookahead == '/') ADVANCE(12);
-      if (lookahead == 'o') ADVANCE(62);
+      if (lookahead == '/') ADVANCE(13);
+      if (lookahead == 'n') ADVANCE(72);
       if (('0' <= lookahead && lookahead <= '9') ||
           ('A' <= lookahead && lookahead <= 'Z') ||
           lookahead == '_' ||
@@ -933,8 +930,8 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
       END_STATE();
     case 62:
       ACCEPT_TOKEN(sym_custom_interface_type);
-      if (lookahead == '/') ADVANCE(12);
-      if (lookahead == 'o') ADVANCE(54);
+      if (lookahead == '/') ADVANCE(13);
+      if (lookahead == 'o') ADVANCE(63);
       if (('0' <= lookahead && lookahead <= '9') ||
           ('A' <= lookahead && lookahead <= 'Z') ||
           lookahead == '_' ||
@@ -942,8 +939,8 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
       END_STATE();
     case 63:
       ACCEPT_TOKEN(sym_custom_interface_type);
-      if (lookahead == '/') ADVANCE(12);
-      if (lookahead == 'o') ADVANCE(47);
+      if (lookahead == '/') ADVANCE(13);
+      if (lookahead == 'o') ADVANCE(55);
       if (('0' <= lookahead && lookahead <= '9') ||
           ('A' <= lookahead && lookahead <= 'Z') ||
           lookahead == '_' ||
@@ -951,8 +948,8 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
       END_STATE();
     case 64:
       ACCEPT_TOKEN(sym_custom_interface_type);
-      if (lookahead == '/') ADVANCE(12);
-      if (lookahead == 'r') ADVANCE(21);
+      if (lookahead == '/') ADVANCE(13);
+      if (lookahead == 'o') ADVANCE(48);
       if (('0' <= lookahead && lookahead <= '9') ||
           ('A' <= lookahead && lookahead <= 'Z') ||
           lookahead == '_' ||
@@ -960,8 +957,8 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
       END_STATE();
     case 65:
       ACCEPT_TOKEN(sym_custom_interface_type);
-      if (lookahead == '/') ADVANCE(12);
-      if (lookahead == 'r') ADVANCE(51);
+      if (lookahead == '/') ADVANCE(13);
+      if (lookahead == 'r') ADVANCE(22);
       if (('0' <= lookahead && lookahead <= '9') ||
           ('A' <= lookahead && lookahead <= 'Z') ||
           lookahead == '_' ||
@@ -969,7 +966,7 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
       END_STATE();
     case 66:
       ACCEPT_TOKEN(sym_custom_interface_type);
-      if (lookahead == '/') ADVANCE(12);
+      if (lookahead == '/') ADVANCE(13);
       if (lookahead == 'r') ADVANCE(52);
       if (('0' <= lookahead && lookahead <= '9') ||
           ('A' <= lookahead && lookahead <= 'Z') ||
@@ -978,8 +975,8 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
       END_STATE();
     case 67:
       ACCEPT_TOKEN(sym_custom_interface_type);
-      if (lookahead == '/') ADVANCE(12);
-      if (lookahead == 's') ADVANCE(72);
+      if (lookahead == '/') ADVANCE(13);
+      if (lookahead == 'r') ADVANCE(53);
       if (('0' <= lookahead && lookahead <= '9') ||
           ('A' <= lookahead && lookahead <= 'Z') ||
           lookahead == '_' ||
@@ -987,8 +984,8 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
       END_STATE();
     case 68:
       ACCEPT_TOKEN(sym_custom_interface_type);
-      if (lookahead == '/') ADVANCE(12);
-      if (lookahead == 't') ADVANCE(65);
+      if (lookahead == '/') ADVANCE(13);
+      if (lookahead == 's') ADVANCE(73);
       if (('0' <= lookahead && lookahead <= '9') ||
           ('A' <= lookahead && lookahead <= 'Z') ||
           lookahead == '_' ||
@@ -996,8 +993,8 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
       END_STATE();
     case 69:
       ACCEPT_TOKEN(sym_custom_interface_type);
-      if (lookahead == '/') ADVANCE(12);
-      if (lookahead == 't') ADVANCE(34);
+      if (lookahead == '/') ADVANCE(13);
+      if (lookahead == 't') ADVANCE(66);
       if (('0' <= lookahead && lookahead <= '9') ||
           ('A' <= lookahead && lookahead <= 'Z') ||
           lookahead == '_' ||
@@ -1005,8 +1002,8 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
       END_STATE();
     case 70:
       ACCEPT_TOKEN(sym_custom_interface_type);
-      if (lookahead == '/') ADVANCE(12);
-      if (lookahead == 't') ADVANCE(39);
+      if (lookahead == '/') ADVANCE(13);
+      if (lookahead == 't') ADVANCE(35);
       if (('0' <= lookahead && lookahead <= '9') ||
           ('A' <= lookahead && lookahead <= 'Z') ||
           lookahead == '_' ||
@@ -1014,8 +1011,8 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
       END_STATE();
     case 71:
       ACCEPT_TOKEN(sym_custom_interface_type);
-      if (lookahead == '/') ADVANCE(12);
-      if (lookahead == 't') ADVANCE(35);
+      if (lookahead == '/') ADVANCE(13);
+      if (lookahead == 't') ADVANCE(40);
       if (('0' <= lookahead && lookahead <= '9') ||
           ('A' <= lookahead && lookahead <= 'Z') ||
           lookahead == '_' ||
@@ -1023,8 +1020,8 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
       END_STATE();
     case 72:
       ACCEPT_TOKEN(sym_custom_interface_type);
-      if (lookahead == '/') ADVANCE(12);
-      if (lookahead == 't') ADVANCE(66);
+      if (lookahead == '/') ADVANCE(13);
+      if (lookahead == 't') ADVANCE(36);
       if (('0' <= lookahead && lookahead <= '9') ||
           ('A' <= lookahead && lookahead <= 'Z') ||
           lookahead == '_' ||
@@ -1032,15 +1029,16 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
       END_STATE();
     case 73:
       ACCEPT_TOKEN(sym_custom_interface_type);
-      if (lookahead == '/') ADVANCE(12);
-      if (('A' <= lookahead && lookahead <= 'Z') ||
-          lookahead == '_') ADVANCE(73);
+      if (lookahead == '/') ADVANCE(13);
+      if (lookahead == 't') ADVANCE(67);
       if (('0' <= lookahead && lookahead <= '9') ||
+          ('A' <= lookahead && lookahead <= 'Z') ||
+          lookahead == '_' ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(74);
       END_STATE();
     case 74:
       ACCEPT_TOKEN(sym_custom_interface_type);
-      if (lookahead == '/') ADVANCE(12);
+      if (lookahead == '/') ADVANCE(13);
       if (('0' <= lookahead && lookahead <= '9') ||
           ('A' <= lookahead && lookahead <= 'Z') ||
           lookahead == '_' ||
@@ -1067,7 +1065,7 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
       END_STATE();
     case 81:
       ACCEPT_TOKEN(sym_number);
-      if (lookahead == '.') ADVANCE(10);
+      if (lookahead == '.') ADVANCE(11);
       if (('0' <= lookahead && lookahead <= '9')) ADVANCE(81);
       END_STATE();
     case 82:
@@ -1076,7 +1074,7 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
       END_STATE();
     case 83:
       ACCEPT_TOKEN(sym_name_string);
-      if (lookahead == '_') ADVANCE(11);
+      if (lookahead == '_') ADVANCE(12);
       if (('0' <= lookahead && lookahead <= '9') ||
           ('a' <= lookahead && lookahead <= 'z')) ADVANCE(83);
       END_STATE();
@@ -1085,12 +1083,13 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
       END_STATE();
     case 85:
       ACCEPT_TOKEN(sym_const_name);
-      if (('A' <= lookahead && lookahead <= 'Z') ||
+      if (('0' <= lookahead && lookahead <= '9') ||
+          ('A' <= lookahead && lookahead <= 'Z') ||
           lookahead == '_') ADVANCE(85);
       END_STATE();
     case 86:
       ACCEPT_TOKEN(sym_integer_value);
-      if (lookahead == '.') ADVANCE(10);
+      if (lookahead == '.') ADVANCE(11);
       if (('0' <= lookahead && lookahead <= '9')) ADVANCE(86);
       END_STATE();
     case 87:
@@ -1113,21 +1112,21 @@ static bool ts_lex(TSLexer *lexer, TSStateId state) {
 
 static const TSLexMode ts_lex_modes[STATE_COUNT] = {
   [0] = {.lex_state = 0},
-  [1] = {.lex_state = 13},
-  [2] = {.lex_state = 13},
-  [3] = {.lex_state = 13},
-  [4] = {.lex_state = 13},
-  [5] = {.lex_state = 13},
-  [6] = {.lex_state = 13},
-  [7] = {.lex_state = 13},
-  [8] = {.lex_state = 13},
-  [9] = {.lex_state = 13},
-  [10] = {.lex_state = 13},
-  [11] = {.lex_state = 13},
-  [12] = {.lex_state = 13},
-  [13] = {.lex_state = 13},
-  [14] = {.lex_state = 13},
-  [15] = {.lex_state = 13},
+  [1] = {.lex_state = 0},
+  [2] = {.lex_state = 14},
+  [3] = {.lex_state = 14},
+  [4] = {.lex_state = 0},
+  [5] = {.lex_state = 0},
+  [6] = {.lex_state = 14},
+  [7] = {.lex_state = 14},
+  [8] = {.lex_state = 14},
+  [9] = {.lex_state = 14},
+  [10] = {.lex_state = 14},
+  [11] = {.lex_state = 0},
+  [12] = {.lex_state = 0},
+  [13] = {.lex_state = 14},
+  [14] = {.lex_state = 14},
+  [15] = {.lex_state = 14},
   [16] = {.lex_state = 5},
   [17] = {.lex_state = 5},
   [18] = {.lex_state = 5},
@@ -1139,18 +1138,18 @@ static const TSLexMode ts_lex_modes[STATE_COUNT] = {
   [24] = {.lex_state = 5},
   [25] = {.lex_state = 5},
   [26] = {.lex_state = 5},
-  [27] = {.lex_state = 5},
+  [27] = {.lex_state = 10},
   [28] = {.lex_state = 9},
   [29] = {.lex_state = 5},
   [30] = {.lex_state = 0},
   [31] = {.lex_state = 0},
-  [32] = {.lex_state = 16},
-  [33] = {.lex_state = 5},
+  [32] = {.lex_state = 17},
+  [33] = {.lex_state = 10},
   [34] = {.lex_state = 0},
-  [35] = {.lex_state = 5},
+  [35] = {.lex_state = 10},
   [36] = {.lex_state = 0},
-  [37] = {.lex_state = 5},
-  [38] = {.lex_state = 5},
+  [37] = {.lex_state = 10},
+  [38] = {.lex_state = 10},
   [39] = {.lex_state = 0},
 };
 
@@ -1181,7 +1180,6 @@ static const uint16_t ts_parse_table[LARGE_STATE_COUNT][SYMBOL_COUNT] = {
     [anon_sym_LBRACK_LT_EQ] = ACTIONS(1),
     [sym_number] = ACTIONS(1),
     [anon_sym_EQ] = ACTIONS(1),
-    [sym_const_name] = ACTIONS(1),
     [sym_integer_value] = ACTIONS(1),
     [sym_float_value] = ACTIONS(1),
     [aux_sym_string_value_token1] = ACTIONS(1),

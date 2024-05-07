@@ -377,7 +377,7 @@
     },
     "const_name": {
       "type": "PATTERN",
-      "value": "[A-Z_]+"
+      "value": "[A-Z0-9_]+"
     },
     "field_value": {
       "type": "CHOICE",

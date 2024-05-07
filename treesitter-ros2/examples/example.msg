@@ -26,4 +26,5 @@ int32 Y=-123
 string FOO="foo"
 string BAR='bar'
 string[] BAZ=["baz"]
+string[] BAZ_02_ASDA=["baz"]
 

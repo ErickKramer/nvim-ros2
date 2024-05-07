@@ -83,7 +83,7 @@ module.exports = grammar({
     // Regex that follows the field_names rules for names https://docs.ros.org/en/humble/Concepts/Basic/About-Interfaces.html#field-names
     name_string: () => /[a-z]([a-z0-9]*(_[a-z0-9]+)*)?/,
     const_field: ($) => seq($.const_name, "=", $.field_value),
-    const_name: () => /[A-Z_]+/,
+    const_name: () => /[A-Z0-9_]+/,
     field_value: ($) =>
       choice($.integer_value, $.float_value, $.string_value, $.array),
     integer_value: () => /-?\d+/,
