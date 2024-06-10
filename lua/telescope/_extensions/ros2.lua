@@ -9,6 +9,7 @@ return require("telescope").register_extension({
 		interfaces = pickers.interfaces,
 		nodes = pickers.nodes,
 		services = pickers.services,
-		topics = pickers.topics,
+		topics_info = pickers.topics_info,
+		topics_echo = pickers.topics_echo,
 	},
 })
