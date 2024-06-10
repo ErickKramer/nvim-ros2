@@ -46,7 +46,7 @@ while developing ROS 2 modules.
 
 #### Active topics with info preview
 
-![telescope topics](./assets/topics.gif)
+![telescope topics_info](./assets/topics.gif)
 
 ### Autocommands
 

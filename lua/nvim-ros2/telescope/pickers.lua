@@ -137,7 +137,7 @@ function M.services()
 end
 
 -- Picker of active ROS 2 topics
-function M.topics()
+function M.topics_info()
 	local system_cmd = { "ros2", "topic", "list" }
 
 	-- Process command output
@@ -149,6 +149,22 @@ function M.topics()
 		command = "topic",
 		mode = "info",
 		args = "--verbose",
+	}
+	ros_picker(opts)
+end
+
+function M.topics_echo()
+	local system_cmd = { "ros2", "topic", "list" }
+
+	-- Process command output
+	local opts = {
+		preview_title = "Topic Echo",
+		prompt_title = "Search",
+		results_title = "Active Topics",
+		system_cmd = system_cmd,
+		command = "topic",
+		mode = "echo",
+		args = "--once",
 	}
 	ros_picker(opts)
 end
