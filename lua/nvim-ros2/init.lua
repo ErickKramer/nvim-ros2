@@ -38,7 +38,7 @@ function M.setup_ros2_autocmds()
 	-- Specify filetype other common ROS files
 	vim.api.nvim_create_autocmd(
 		{ "BufRead", "BufNewFile" },
-		{ pattern = { "*.launch", "*.xacro", "*.urdf" }, command = "set filetype=xml", group = ros2_group }
+		{ pattern = { "*.launch", "*.xacro", "*.sdf", "*.urdf" }, command = "set filetype=xml", group = ros2_group }
 	)
 end
 
