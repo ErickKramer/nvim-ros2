@@ -1,4 +1,4 @@
-local pickers = require("nvim-ros2.telescope.pickers")
+local pickers = require("nvim-ros2.pickers.telescope")
 
 return require("telescope").register_extension({
 	-- setup = function(ext_config, config)

@@ -12,19 +12,17 @@ end
 
 -- Configure custom treesitter grammar for ROS2 files
 function M.setup_ros2_treesitter()
-	local treesitter = require("nvim-treesitter.parsers")
-	if treesitter ~= nil then
-		local parser_config = treesitter.get_parser_configs()
-		parser_config.ros2 = {
-			install_info = {
-				url = get_parser_path() .. "/treesitter-ros2/",
-				files = { "src/parser.c" },
-				generate_requires_npm = false,
-				requires_generate_from_grammar = false,
-			},
-			filetype = "ros",
-		}
-	end
+  local parser_config = require("nvim-treesitter.parsers").get_parser_configs()
+  parser_config.ros2 = {
+    install_info = {
+      path = get_parser_path() .. "/treesitter-ros2/",
+      revision = "HEAD", -- HEAD by default, set commit hash if needed
+      location = { "src/parser.c" },
+      generate_requires_npm = false,
+      requires_generate_from_grammar = false,
+    },
+    filetype = "ros",
+  }
 end
 
 -- Configure ROS 2 autocommands
@@ -46,7 +44,7 @@ function M.setup(opts)
 	-- Get default values
 	Config.setup(opts)
 
-	if Config.options.telescope then
+	if Config.options.picker == "telescope" then
 		require("telescope").load_extension("ros2")
 	end
 
@@ -57,5 +55,7 @@ function M.setup(opts)
 		M.setup_ros2_autocmds()
 	end
 end
+
+M.pickers = require("nvim-ros2.pickers")
 
 return M
