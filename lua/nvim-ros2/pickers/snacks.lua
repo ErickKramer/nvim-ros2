@@ -33,9 +33,22 @@ local function ros_picker(opts)
         table.insert(cmd, opts.args)
       end
 
-      local preview_output = vim.fn.systemlist(cmd)
-      ctx.preview:set_lines(preview_output)
-      ctx.preview:highlight({ lang = "yaml" }) -- Assuming yaml/text output
+      ctx.preview:set_lines({ "Loading..." })
+
+      vim.system(cmd, { timeout = opts.timeout or 5000 }, function(result)
+        vim.schedule(function()
+          if result.code == 124 then
+            ctx.preview:set_lines({ "Timeout: No data received" })
+          elseif result.stdout and result.stdout ~= "" then
+            ctx.preview:set_lines(vim.split(result.stdout, "\n"))
+            ctx.preview:highlight({ lang = "yaml" })
+          elseif result.stderr and result.stderr ~= "" then
+            ctx.preview:set_lines(vim.split(result.stderr, "\n"))
+          else
+            ctx.preview:set_lines({ "No data" })
+          end
+        end)
+      end)
     end,
     confirm = function()
       -- No-op as per original requirement
@@ -126,6 +139,7 @@ function M.topics_echo()
     command = "topic",
     mode = "echo",
     args = "--once",
+    timeout = 3000,
   })
 end
 
