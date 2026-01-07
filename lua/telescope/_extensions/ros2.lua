@@ -2,7 +2,7 @@ local pickers = require("nvim-ros2.pickers.telescope")
 
 return require("telescope").register_extension({
 	-- setup = function(ext_config, config)
-	--   -- access extension config and user config
+	-- access extension config and user config
 	-- end,
 	exports = {
 		actions = pickers.actions,
