@@ -86,7 +86,7 @@ function M.interfaces()
       local cmd = { "ros2", "interface", "show", item.text }
       local preview_output = vim.fn.systemlist(cmd)
       ctx.preview:set_lines(preview_output)
-      ctx.preview:highlight({ lang = "msg" }) -- ROS msg format
+      ctx.preview:highlight({ lang = "ros2" })
     end,
     confirm = function() end,
   })
