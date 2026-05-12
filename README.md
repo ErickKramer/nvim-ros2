@@ -53,7 +53,6 @@ while developing ROS 2 modules.
 - Configure `*.action`, `*.msg`, and `*.srv` files as `ros` filetype
 - Configure `*.launch`, `*.xacro`, and `*.urdf` files as `xml` filetype
 
-
 ### 🧭 Workspace Navigator
 
 Package-aware pickers designed to scope your searches to the specific ROS 2 package you are currently editing. Available across Telescope, Snacks, and Fzf-lua.
@@ -65,7 +64,7 @@ Package-aware pickers designed to scope your searches to the specific ROS 2 pack
 - **Smart Attach:** Press `<C-t>` while hovering over a node in the Active Nodes picker to instantly attach the ROS Tuner to its matching file, or `<C-r>` to attach a raw Scratch Proxy.
 - **Topic Echo:** Select an active topic to spawn a live, safely-managed buffer streaming YAML output.
 - **Interface Jumper:** Search `msg`, `srv`, or `action` definitions and press `<CR>` to instantly jump to the source file, resolving via `install` or local `src` directories automatically.
-When opening directories via the **Package Hub** or **Snipers**, the plugin automatically detects and uses your preferred file explorer. It currently supports out-of-the-box integration with:
+  When opening directories via the **Package Hub** or **Snipers**, the plugin automatically detects and uses your preferred file explorer. It currently supports out-of-the-box integration with:
 - [oil.nvim](https://github.com/stevearc/oil.nvim)
 - [mini.files](https://github.com/echasnovski/mini.files)
 - [neo-tree.nvim](https://github.com/nvim-neo-tree/neo-tree.nvim)
@@ -79,11 +78,9 @@ When opening directories via the **Package Hub** or **Snipers**, the plugin auto
 
 ![interfaces goto](./assets/interfaces-goto.gif)
 
-
-
 ### 🚀 The RPC Engine (Services & Actions)
 
-Launch ephemeral, auto-cleaning scratch buffers to execute ROS 2 calls just like Postman or Insomnia. 
+Launch ephemeral, auto-cleaning scratch buffers to execute ROS 2 calls just like Postman or Insomnia.
 
 - **Live Streaming:** Trigger long-running actions. The engine intercepts Python CLI outputs and continuously rewrites the buffer's response section with clean, readable YAML.
 - **Safe Execution:** Stop long-running actions gracefully. Pressing `s` sends a native `SIGINT` (Ctrl-C) to trigger the Action Server's cancellation pipeline.
@@ -95,10 +92,10 @@ Launch ephemeral, auto-cleaning scratch buffers to execute ROS 2 calls just like
 
 ### 🎛️ ROS 2 Tuner
 
-A hardware-in-the-loop tuning engine to safely synchronize local parameter files (`.yaml` / `.param`) with live DDS nodes on your robot. 
+A hardware-in-the-loop tuning engine to safely synchronize local parameter files (`.yaml` / `.param`) with live DDS nodes on your robot.
 
-- **Node-First Workflow (`:RosTune attach <node>`):** Select a live node from the network. The engine will instantly open its matching `.yaml` source file. 
-  - *Want to just mess around safely?* Add `--scratch` (or hit `<C-r>` in the Nodes Picker) to bypass your local files and spawn a temporary, synthetic proxy buffer perfectly synced to the live node.
+- **Node-First Workflow (`:RosTune attach <node>`):** Select a live node from the network. The engine will instantly open its matching `.yaml` source file.
+  - _Want to just mess around safely?_ Add `--scratch` (or hit `<C-r>` in the Nodes Picker) to bypass your local files and spawn a temporary, synthetic proxy buffer perfectly synced to the live node.
 - **File-First Workflow (`:RosTune`):** Open any local parameter file and run the command. The engine scans the DDS network, fuzzily matches your YAML keys to active nodes, and spawns a connected Tuning Console.
 - **Crucible Mode (Safe Git Integration):** After experimenting with live values in the Tuning Console, simply save the file (`:w`). Both the console and your original file will enter Neovim's `diffthis` mode side-by-side, allowing you to selectively push (`dp`) your tuned values back to the source code.
 - **Live Event Loop:** Values and boundaries (Ranges) are dynamically fetched as virtual text. Modifying a value in Insert mode safely triggers a `ros2 param set` network call in the background.
@@ -111,17 +108,19 @@ A hardware-in-the-loop tuning engine to safely synchronize local parameter files
 
 To prevent flooding your curated `.yaml` configuration files with ROS 2 systemic and component defaults, the Tuner does not automatically inject missing parameters by default.
 
-* **File-backed Buffers:** Syncing will only update the values of parameters already present in your file. 
-  * Use `:RosTune resync --pull` (or `<leader>rp`) to explicitly fetch and inject newly discovered parameters.
-  * Set `tuner_pull_missing = true` in your `opts` to automatically pull them every time.
-* **Synthetic Proxy Buffers:** When using `:RosTune attach` without a backing file, the Tuner will always pull and display all live parameters regardless of this setting.
+- **File-backed Buffers:** Syncing will only update the values of parameters already present in your file.
+  - Use `:RosTune resync --pull` (or `<leader>rp`) to explicitly fetch and inject newly discovered parameters.
+  - Set `tuner_pull_missing = true` in your `opts` to automatically pull them every time.
+- **Synthetic Proxy Buffers:** When using `:RosTune attach` without a backing file, the Tuner will always pull and display all live parameters regardless of this setting.
 
 #### Missing Parameter Injection
 
 ![tuner pull](./assets/tuner_pull.gif)
 
 #### 📊 Statusline Integration
+
 You can expose the buffer's tuning health (synced, unused, or offline parameters) directly in your statusline (e.g., Lualine):
+
 ```lua
 require("lualine").setup({
   sections = {
@@ -184,14 +183,14 @@ config = function(_, opts)
     { "<leader>lt", function() require("nvim-ros2").pickers.topics_info() end, desc = "[ROS 2]: List topics with info" },
     { "<leader>le", function() require("nvim-ros2").pickers.topics_echo() end, desc = "[ROS 2]: List topics with echo" },
     { "<leader>ls", function() require("nvim-ros2").pickers.services() end, desc = "[ROS 2]: List services" },
-    
+
     -- Workspace Navigator
     { "<leader>fp", function() require("nvim-ros2").pickers.packages() end, desc = "[F]ind ROS2 [P]ackage" },
     { "<leader>pf", function() require("nvim-ros2").pickers.find_files_package() end, desc = "Find in Package" },
     { "<leader>pg", function() require("nvim-ros2").pickers.grep_package() end, desc = "Grep in Package" },
     { "<leader>pc", function() require("nvim-ros2").pickers.edit_cmake() end, desc = "Edit CMakeLists.txt" },
     { "<leader>pp", function() require("nvim-ros2").pickers.edit_package_xml() end, desc = "Edit package.xml" },
-    
+
     -- Snipers
     { "<leader>pm", function() require("nvim-ros2").pickers.sniper("msg") end, desc = "Sniper: msg/" },
     { "<leader>ps", function() require("nvim-ros2").pickers.sniper("srv") end, desc = "Sniper: srv/" },
@@ -210,7 +209,7 @@ config = function(_, opts)
 
 ```lua
 return {
-  "tcozic/nvim-ros2",
+  "ErickKramer/nvim-ros2",
   dependencies = {
     "folke/snacks.nvim",
     "nvim-treesitter/nvim-treesitter",
@@ -230,14 +229,14 @@ return {
     { "<leader>lt", function() require("nvim-ros2").pickers.topics_info() end, desc = "[ROS 2]: List topics with info" },
     { "<leader>le", function() require("nvim-ros2").pickers.topics_echo() end, desc = "[ROS 2]: List topics with echo" },
     { "<leader>ls", function() require("nvim-ros2").pickers.services() end, desc = "[ROS 2]: List services" },
-    
+
     -- Workspace Navigator
     { "<leader>fp", function() require("nvim-ros2").pickers.packages() end, desc = "[F]ind ROS2 [P]ackage" },
     { "<leader>pf", function() require("nvim-ros2").pickers.find_files_package() end, desc = "Find in Package" },
     { "<leader>pg", function() require("nvim-ros2").pickers.grep_package() end, desc = "Grep in Package" },
     { "<leader>pc", function() require("nvim-ros2").pickers.edit_cmake() end, desc = "Edit CMakeLists.txt" },
     { "<leader>pp", function() require("nvim-ros2").pickers.edit_package_xml() end, desc = "Edit package.xml" },
-    
+
     -- Snipers
     { "<leader>pm", function() require("nvim-ros2").pickers.sniper("msg") end, desc = "Sniper: msg/" },
     { "<leader>ps", function() require("nvim-ros2").pickers.sniper("srv") end, desc = "Sniper: srv/" },
@@ -256,7 +255,7 @@ return {
 
 ```lua
 return {
-  "tcozic/nvim-ros2",
+  "ErickKramer/nvim-ros2",
   dependencies = {
     "ibhagwan/fzf-lua",
     "nvim-treesitter/nvim-treesitter",
@@ -276,14 +275,14 @@ return {
     { "<leader>lt", function() require("nvim-ros2").pickers.topics_info() end, desc = "[ROS 2]: List topics with info" },
     { "<leader>le", function() require("nvim-ros2").pickers.topics_echo() end, desc = "[ROS 2]: List topics with echo" },
     { "<leader>ls", function() require("nvim-ros2").pickers.services() end, desc = "[ROS 2]: List services" },
-    
+
     -- Workspace Navigator
     { "<leader>fp", function() require("nvim-ros2").pickers.packages() end, desc = "[F]ind ROS2 [P]ackage" },
     { "<leader>pf", function() require("nvim-ros2").pickers.find_files_package() end, desc = "Find in Package" },
     { "<leader>pg", function() require("nvim-ros2").pickers.grep_package() end, desc = "Grep in Package" },
     { "<leader>pc", function() require("nvim-ros2").pickers.edit_cmake() end, desc = "Edit CMakeLists.txt" },
     { "<leader>pp", function() require("nvim-ros2").pickers.edit_package_xml() end, desc = "Edit package.xml" },
-    
+
     -- Snipers
     { "<leader>pm", function() require("nvim-ros2").pickers.sniper("msg") end, desc = "Sniper: msg/" },
     { "<leader>ps", function() require("nvim-ros2").pickers.sniper("srv") end, desc = "Sniper: srv/" },
