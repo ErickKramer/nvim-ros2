@@ -49,6 +49,8 @@ function M.setup_ros2_autocmds()
   })
 end
 
+-- lua/nvim-ros2/init.lua
+
 function M.setup(opts)
   -- Get default values
   Config.setup(opts)
@@ -57,14 +59,79 @@ function M.setup(opts)
     require("telescope").load_extension("ros2")
   end
 
+  if Config.options.tuner then
+    vim.api.nvim_create_user_command("RosTune", function(o)
+      local args = vim.split(o.args, " ", { trimempty = true })
+      local Tuner = require("nvim-ros2.tuner")
+
+      if #args == 0 then
+        Tuner.start_session()
+      elseif args[1] == "attach" then
+        local force_scratch = false
+        local target_node = nil
+
+        for i = 2, #args do
+          if args[i] == "--scratch" then
+            force_scratch = true
+          elseif not target_node then
+            target_node = args[i]
+          end
+        end
+
+        if target_node then
+          Tuner.attach_node(target_node, force_scratch)
+        else
+          vim.notify("ROS Tuner: Node name required.", vim.log.levels.ERROR)
+        end
+      elseif args[1] == "resync" then
+        -- Check if any subsequent argument is the pull flag
+        local force_pull = false
+        for i = 2, #args do
+          if args[i] == "--pull" then
+            force_pull = true
+            break
+          end
+        end
+        -- Pass the flag to global_resync (bufnr=0 means current buffer)
+        Tuner.global_resync(0, nil, force_pull)
+      end
+    end, {
+      nargs = "*",
+      complete = function(arglead, cmdline)
+        local normalized_cmd = cmdline:gsub("^%s*", ""):gsub("%s+", " ")
+        if vim.startswith(normalized_cmd, "RosTune resync") then
+          return vim.tbl_filter(function(v)
+            return vim.startswith(v, arglead) -- Safe prefix matching
+          end, { "--pull" })
+        end
+        if normalized_cmd:match("^RosTune attach [%w_/%-]+") then
+          return vim.tbl_filter(function(v)
+            return vim.startswith(v, arglead)
+          end, { "--scratch" })
+        end
+        -- Default completion for the base command
+        return vim.tbl_filter(function(v)
+          return vim.startswith(v, arglead) -- Safe prefix matching
+        end, { "attach", "resync" })
+      end,
+    })
+  end
+
   if Config.options.treesitter then
     M.setup_ros2_treesitter()
   end
+
   if Config.options.autocmds then
     M.setup_ros2_autocmds()
   end
 end
 
 M.pickers = require("nvim-ros2.pickers")
+function M.tuner_status()
+  if Config.options.tuner then
+    return require("nvim-ros2.tuner.ui").tuner_status()
+  end
+  return ""
+end
 
 return M

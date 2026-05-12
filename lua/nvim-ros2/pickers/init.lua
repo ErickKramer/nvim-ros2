@@ -25,10 +25,17 @@ function M.interfaces()
   end
 end
 
-function M.nodes()
+function M.nodes(opts)
   local picker = M.get_picker()
   if picker then
-    picker.nodes()
+    picker.nodes(opts)
+  end
+end
+
+function M.actions()
+  local picker = M.get_picker()
+  if picker and picker.actions then
+    picker.actions()
   end
 end
 
@@ -53,10 +60,59 @@ function M.topics_echo()
   end
 end
 
-function M.actions()
+function M.packages()
   local picker = M.get_picker()
   if picker then
-    picker.actions()
+    picker.packages()
+  end
+end
+
+function M.sniper(subdir)
+  local picker = M.get_picker()
+  if picker then
+    picker.sniper(subdir)
+  end
+end
+
+function M.find_files_package()
+  local picker = M.get_picker()
+  if picker then
+    picker.find_files_package()
+  end
+end
+
+function M.grep_package()
+  local picker = M.get_picker()
+  if picker then
+    picker.grep_package()
+  end
+end
+
+function M.edit_cmake()
+  local Utils = require("nvim-ros2.utils")
+  local pkg = Utils.get_package_root(0)
+  if pkg then
+    vim.cmd("edit " .. pkg .. "/CMakeLists.txt")
+  end
+end
+
+function M.edit_package_xml()
+  local Utils = require("nvim-ros2.utils")
+  local pkg = Utils.get_package_root(0)
+  if pkg then
+    vim.cmd("edit " .. pkg .. "/package.xml")
+  end
+end
+
+function M.saved_payloads()
+  local picker = M.get_picker()
+  if picker and picker.saved_payloads then
+    picker.saved_payloads()
+  else
+    vim.notify(
+      "Saved payloads picker not implemented for " .. require("nvim-ros2.config").options.picker,
+      vim.log.levels.WARN
+    )
   end
 end
 
